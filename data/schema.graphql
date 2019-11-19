@@ -1,0 +1,137 @@
+# source: http://localhost:8080/graphql
+# timestamp: Tue Nov 19 2019 18:23:32 GMT+0530 (India Standard Time)
+
+schema {
+  query: RootQuery
+  mutation: RootMutation
+}
+
+input createTodoInput {
+  title: String
+  clientMutationId: String
+}
+
+type createTodoPayload {
+  status: String
+  message: String
+  clientMutationId: String
+}
+
+input deleteCompletedTodosInput {
+  clientMutationId: String
+}
+
+type deleteCompletedTodosPayload {
+  status: String
+  message: String
+  clientMutationId: String
+}
+
+input deleteTodoInput {
+  id: ID
+  clientMutationId: String
+}
+
+type deleteTodoPayload {
+  status: String
+  message: String
+  clientMutationId: String
+}
+
+input editTodoInput {
+  id: String
+  completed: Boolean
+  title: String
+  clientMutationId: String
+}
+
+type editTodoPayload {
+  status: String
+  message: String
+  clientMutationId: String
+}
+
+input loginInput {
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type loginPayload {
+  status: String
+  message: String
+  token: String
+  clientMutationId: String
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+input registerInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  clientMutationId: String
+}
+
+type registerPayload {
+  status: String
+  message: String
+  clientMutationId: String
+}
+
+type RootMutation {
+  register(input: registerInput!): registerPayload
+  login(input: loginInput!): loginPayload
+  createTodo(input: createTodoInput!): createTodoPayload
+  editTodo(input: editTodoInput!): editTodoPayload
+  deleteCompletedTodos(input: deleteCompletedTodosInput!): deleteCompletedTodosPayload
+  deleteTodo(input: deleteTodoInput!): deleteTodoPayload
+}
+
+type RootQuery {
+  viewer: User
+}
+
+type Todo {
+  id: ID
+  title: String
+  completed: Boolean
+}
+
+"""A connection to a list of items."""
+type TodoConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TodoEdge]
+}
+
+"""An edge in a connection."""
+type TodoEdge {
+  """The item at the end of the edge"""
+  node: Todo
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type User {
+  id: ID
+  name: String
+  todos(after: String, first: Int, before: String, last: Int, completed: Boolean): TodoConnection
+}
