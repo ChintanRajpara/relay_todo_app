@@ -4,10 +4,17 @@ import createAnimatedSwitchNavigator from "react-navigation-animated-switch";
 import TodoViewer from "./screens/todos/TodoViewer";
 import SplashScreen from "./screens/splashScreen/SplashScreen";
 import { Transition } from "react-native-reanimated";
+import SignUp from "./screens/auth/SignUp";
+import SignIn from "./screens/auth/SignIn";
 
 export const ROUTES_CONSTANTS = {
     SPLASH_SCREEN: 'SPLASH_SCREEN',
-    TODOS: "TODOS"
+    APP_STACK: "APP_STACK",
+    AUTH_STACK: "AUTH_STACK",
+    SIGN_UP: "SIGN_UP",
+    SIGN_IN: "SIGN_IN",
+    TODOS: "TODOS",
+
 }
 
 const AppStack = createStackNavigator(
@@ -22,55 +29,48 @@ const AppStack = createStackNavigator(
     }
 );
 
-// const AuthSwitch = createSwitchNavigator({
-//     [ROUTES_CONSTANTS.AUTH_SIGNIN]: {
-//         screen: SignInForm,
+const AuthSwitch = createStackNavigator(
+    {
+        [ROUTES_CONSTANTS.SIGN_UP]: {
+            screen: SignUp,
+            navigationOptions: () => ({ header: null })
+        },
+        [ROUTES_CONSTANTS.SIGN_IN]: {
+            screen: SignIn,
+            navigationOptions: () => ({ header: null })
+        },
+    },
+    {
+        initialRouteName: ROUTES_CONSTANTS.SIGN_UP,
+    }
+);
+
+// const AuthSwitch = createStackNavigator({
+//     [ROUTES_CONSTANTS.SIGN_UP]: {
+//         screen: SignUp,
 //         navigationOptions: () => ({ header: null })
 //     },
-//     [ROUTES_CONSTANTS.AUTH_SIGNUP]: {
-//         screen: SignUpForm,
-//         navigationOptions: () => ({ header: null })
-//     },
-//     [ROUTES_CONSTANTS.AUTH_FORGOT_PASSWORD]: {
-//         screen: ForgotPasswordForm,
-//         navigationOptions: () => ({ header: null })
-//     },
-//     [ROUTES_CONSTANTS.AUTH_CHANGE_PASSWORD]: {
-//         screen: ChangePasswordUponRequest,
-//         path: "auth/changePassword/:uuid",
-//         navigationOptions: () => ({ header: null })
-//     },
-//     [ROUTES_CONSTANTS.AUTH_MESSAGE_DISPLAYER]: {
-//         screen: MessageDisplayer,
-//         navigationOptions: () => ({ header: null })
-//     },
-//     [ROUTES_CONSTANTS.AUTH_ACTIVATE_ACCOUNT]: {
-//         screen: ActivateUserAccount,
-//         path: "activateUserAccount/:activation_token",
-//         navigationOptions: () => ({ header: null })
-//     }
 // },
 //     {
-//         initialRouteName: ROUTES_CONSTANTS.AUTH_SIGNIN
+//         initialRouteName: ROUTES_CONSTANTS.SIGN_UP
 //     }
 // )
 
 
 const AppNavigator = createAnimatedSwitchNavigator({
-
     [ROUTES_CONSTANTS.SPLASH_SCREEN]: {
         screen: SplashScreen,
         navigationOptions: () => ({ header: null })
     },
-    // [ROUTES_CONSTANTS.APP_STACK]: {
-    //     screen: AppStack,
-    //     path: "app",
-    //     navigationOptions: () => ({ header: null })
-    // },
-    // [ROUTES_CONSTANTS.AUTH_STACK]: {
-    //   screen: AuthSwitch,
-    //   navigationOptions: () => ({ header: null })
-    // }
+    [ROUTES_CONSTANTS.APP_STACK]: {
+        screen: AppStack,
+        path: "app",
+        navigationOptions: () => ({ header: null })
+    },
+    [ROUTES_CONSTANTS.AUTH_STACK]: {
+        screen: AuthSwitch,
+        navigationOptions: () => ({ header: null })
+    }
 }, {
     initialRouteName: ROUTES_CONSTANTS.SPLASH_SCREEN,
     transition: (
@@ -83,7 +83,6 @@ const AppNavigator = createAnimatedSwitchNavigator({
             <Transition.In type="slide-right" durationMs={500} />
         </Transition.Together>
     )
-}
-)
+})
 
 export default AppNavigator;

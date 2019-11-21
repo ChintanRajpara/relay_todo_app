@@ -1,5 +1,5 @@
 # source: http://localhost:8080/graphql
-# timestamp: Tue Nov 19 2019 18:23:32 GMT+0530 (India Standard Time)
+# timestamp: Wed Nov 20 2019 10:28:51 GMT+0530 (India Standard Time)
 
 schema {
   query: RootQuery
@@ -132,6 +132,8 @@ type TodoEdge {
 
 type User {
   id: ID
-  name: String
+  firstName: String
+  lastName: String
+  email: String
   todos(after: String, first: Int, before: String, last: Int, completed: Boolean): TodoConnection
 }
